@@ -78,6 +78,57 @@ naturally calls for it.
   (`learncpp/template_chapter.md`), then correct against the chapter. Every
   two chapters: one combined `practice.cpp` with 5+ `assert()`s
   (`learncpp/practice/template.cpp`).
+
+### LearnCpp chapter index
+
+Full LearnCpp.com sequence (chapters 0–28 plus optional chapters O and F, in
+their real site order). `learncpp/chapters/<slug>.md` has 5 Q-only prompts
+per chapter (answers left blank — fill them in from memory after closing the
+tab). `learncpp/practice/<slug>.cpp` is the paired 2-chapter combined
+program, scaffolded with a task description but no implementation.
+
+Suggested priority for this interview (see chat for full reasoning): pointers/
+references (12), bit manipulation (O), dynamic allocation (19), structs/
+classes (13–15), move semantics/smart pointers (22), and virtual functions
+(25) are the highest-yield chapters for an Accelerator Software interview —
+do those first if short on time.
+
+| # | Chapter file | Practice pair |
+|---|---|---|
+| 0 | `00_introduction_getting_started` | `00_01` |
+| 1 | `01_cpp_basics` | ↑ |
+| 2 | `02_functions_and_files` | `02_03` |
+| 3 | `03_debugging` | ↑ |
+| 4 | `04_fundamental_data_types` | `04_05` |
+| 5 | `05_constants_and_strings` | ↑ |
+| 6 | `06_operators` | `06_o` |
+| O | `o_bit_manipulation` | ↑ |
+| 7 | `07_scope_duration_linkage` | `07_08` |
+| 8 | `08_control_flow` | ↑ |
+| 9 | `09_error_detection_handling` | `09_10` |
+| 10 | `10_type_conversion_aliases_deduction` | ↑ |
+| 11 | `11_function_overloading_templates` | `11_f` |
+| F | `f_constexpr_functions` | ↑ |
+| 12 | `12_references_and_pointers` | `12_13` |
+| 13 | `13_enums_and_structs` | ↑ |
+| 14 | `14_introduction_to_classes` | `14_15` |
+| 15 | `15_more_on_classes` | ↑ |
+| 16 | `16_std_vector` | `16_17` |
+| 17 | `17_std_array_c_arrays` | ↑ |
+| 18 | `18_iterators_and_algorithms` | `18_19` |
+| 19 | `19_dynamic_allocation` | ↑ |
+| 20 | `20_functions` | `20_21` |
+| 21 | `21_operator_overloading` | ↑ |
+| 22 | `22_move_semantics_smart_pointers` | `22_23` |
+| 23 | `23_object_relationships` | ↑ |
+| 24 | `24_inheritance` | `24_25` |
+| 25 | `25_virtual_functions` | ↑ |
+| 26 | `26_templates_and_classes` | `26_27` |
+| 27 | `27_exceptions` | ↑ |
+| 28 | `28_io_streams` | `28` (solo) |
+
+Appendices A–D are skipped (reference/miscellaneous material, not core
+learning content).
 - `os/` — after each OS chapter/section: explain the mechanism aloud, draw
   it, answer 5 questions (`os/template_section.md`), then correct. Code only
   when it fits (see the OS exercises above).
