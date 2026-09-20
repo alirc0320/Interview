@@ -14,12 +14,12 @@ using namespace std;
  */
 bool read_bytes(void* dst, std::size_t size, std::size_t offset)
 {
-    if(dst == NULL)
+    if (dst == NULL)
     {
         return false;
     }
-    
-    if(offset > std::numeric_limits<std::size_t>::max() - size)
+
+    if (offset > std::numeric_limits<std::size_t>::max() - size)
     {
         return false;
     }
@@ -35,7 +35,7 @@ bool read_bytes(void* dst, std::size_t size, std::size_t offset)
     size_t aligned_size = aligned_end - aligned_start;
     std::vector<uint8_t> temp_buffer(aligned_size);
 
-    if(!(dma_read(temp_buffer.data(), aligned_size, aligned_start)))
+    if (!(dma_read(temp_buffer.data(), aligned_size, aligned_start)))
     {
         return false;
     }

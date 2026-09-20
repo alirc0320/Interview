@@ -117,6 +117,8 @@ TEST(indices_wrap_around_correctly)
     // Push/pop far more elements than capacity so head and tail wrap many times.
     int next_in = 0;
     int next_out = 0;
+    printf("count: %zu, Head: %zu, Tail: %zu\n\n\n", rb.count, rb.head, rb.tail);
+
     for (int round = 0; round < 50; ++round)
     {
         CHECK(rb.push(next_in++));

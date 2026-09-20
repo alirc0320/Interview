@@ -163,7 +163,7 @@ TEST(rr_timeline_invariants_hold_for_a_busy_workload)
     for (const E& e : t)
     {
         CHECK(e.end_time > e.start_time);
-        CHECK(e.start_time >= prev_end);     // never overlaps the previous slice
+        CHECK(e.start_time >= prev_end);       // never overlaps the previous slice
         CHECK(e.end_time - e.start_time <= 3); // never exceeds the quantum
         for (const Process& p : procs)
             if (p.pid == e.pid)

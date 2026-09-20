@@ -182,8 +182,7 @@ TEST(insert_does_not_disturb_bits_outside_the_field)
             CHECK(inserted.has_value());
             if (!inserted)
                 continue;
-            std::uint32_t field_mask =
-                count == 32 ? kAll : (((1u << count) - 1u) << start);
+            std::uint32_t field_mask = count == 32 ? kAll : (((1u << count) - 1u) << start);
             CHECK_EQ(*inserted & ~field_mask, original & ~field_mask);
             CHECK_EQ(*inserted & field_mask, 0u);
         }

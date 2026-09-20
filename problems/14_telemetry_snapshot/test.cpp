@@ -100,7 +100,8 @@ TEST(concurrent_reader_never_sees_a_torn_snapshot)
     std::atomic<int> torn{0};
     std::atomic<std::uint64_t> reads{0};
 
-    auto reader = [&]() {
+    auto reader = [&]()
+    {
         while (!stop.load(std::memory_order_relaxed))
         {
             Telemetry t = store.snapshot();
@@ -113,11 +114,13 @@ TEST(concurrent_reader_never_sees_a_torn_snapshot)
     std::thread r1(reader);
     std::thread r2(reader);
 
-    std::thread writer([&]() {
-        for (std::uint32_t i = 1; i <= 200000; ++i)
-            store.update(make(i));
-        stop.store(true);
-    });
+    std::thread writer(
+        [&]()
+        {
+            for (std::uint32_t i = 1; i <= 200000; ++i)
+                store.update(make(i));
+            stop.store(true);
+        });
 
     writer.join();
     r1.join();
@@ -140,22 +143,26 @@ TEST(snapshots_never_go_backwards_in_time)
     std::atomic<bool> stop{false};
     std::atomic<int> regressions{0};
 
-    std::thread reader([&]() {
-        std::uint32_t last_seen = 0;
-        while (!stop.load(std::memory_order_relaxed))
+    std::thread reader(
+        [&]()
         {
-            Telemetry t = store.snapshot();
-            if (t.temperature_c < last_seen)
-                regressions.fetch_add(1, std::memory_order_relaxed);
-            last_seen = t.temperature_c;
-        }
-    });
+            std::uint32_t last_seen = 0;
+            while (!stop.load(std::memory_order_relaxed))
+            {
+                Telemetry t = store.snapshot();
+                if (t.temperature_c < last_seen)
+                    regressions.fetch_add(1, std::memory_order_relaxed);
+                last_seen = t.temperature_c;
+            }
+        });
 
-    std::thread writer([&]() {
-        for (std::uint32_t i = 1; i <= 100000; ++i)
-            store.update(make(i));
-        stop.store(true);
-    });
+    std::thread writer(
+        [&]()
+        {
+            for (std::uint32_t i = 1; i <= 100000; ++i)
+                store.update(make(i));
+            stop.store(true);
+        });
 
     writer.join();
     reader.join();

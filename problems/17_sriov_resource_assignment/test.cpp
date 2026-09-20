@@ -120,8 +120,8 @@ TEST(exhausting_memory_fails_further_assignments)
 TEST(request_larger_than_total_fails)
 {
     SriovResourceManager mgr(8, 4096);
-    CHECK(!mgr.assign(1, 9, 1024).has_value());  // too many queues
-    CHECK(!mgr.assign(1, 1, 8192).has_value());  // too much memory
+    CHECK(!mgr.assign(1, 9, 1024).has_value()); // too many queues
+    CHECK(!mgr.assign(1, 1, 8192).has_value()); // too much memory
 }
 
 TEST(failed_assignment_consumes_nothing)

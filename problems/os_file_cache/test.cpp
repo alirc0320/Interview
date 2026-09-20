@@ -127,11 +127,11 @@ TEST(eviction_order_follows_access_pattern)
     c.put("a", "1");
     c.put("b", "2");
     c.put("c", "3");
-    c.get("a");       // order LRU->MRU: b c a
-    c.get("b");       // c a b
-    c.put("d", "4");  // evicts c
+    c.get("a");      // order LRU->MRU: b c a
+    c.get("b");      // c a b
+    c.put("d", "4"); // evicts c
     CHECK(missing(c, "c"));
-    c.put("e", "5");  // evicts a  (order was a b d)
+    c.put("e", "5"); // evicts a  (order was a b d)
     CHECK(missing(c, "a"));
     CHECK(has(c, "b", "2"));
     CHECK(has(c, "d", "4"));

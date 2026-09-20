@@ -32,11 +32,14 @@ struct Watchdog
 {
     Watchdog()
     {
-        std::thread([] {
-            std::this_thread::sleep_for(30s);
-            std::cerr << "WATCHDOG: test run exceeded 30s -- likely deadlock\n";
-            std::_Exit(2);
-        }).detach();
+        std::thread(
+            []
+            {
+                std::this_thread::sleep_for(30s);
+                std::cerr << "WATCHDOG: test run exceeded 30s -- likely deadlock\n";
+                std::_Exit(2);
+            })
+            .detach();
     }
 };
 Watchdog watchdog;
@@ -54,8 +57,8 @@ TEST(timeout_actually_waits)
     auto start = Clock::now();
     CHECK(src.wait(80ms) == WaitResult::TimedOut);
     auto elapsed = Clock::now() - start;
-    CHECK(elapsed >= 70ms);   // slack for clock granularity
-    CHECK(elapsed < 2000ms);  // and didn't sleep wildly long
+    CHECK(elapsed >= 70ms);  // slack for clock granularity
+    CHECK(elapsed < 2000ms); // and didn't sleep wildly long
 }
 
 TEST(zero_timeout_returns_immediately)
@@ -86,10 +89,12 @@ TEST(event_is_consumed_by_a_completed_wait)
 TEST(notify_from_another_thread_wakes_the_waiter_early)
 {
     CompletionSource src;
-    std::thread irq([&] {
-        std::this_thread::sleep_for(50ms);
-        src.notify();
-    });
+    std::thread irq(
+        [&]
+        {
+            std::this_thread::sleep_for(50ms);
+            src.notify();
+        });
 
     auto start = Clock::now();
     WaitResult r = src.wait(5000ms);
@@ -122,14 +127,16 @@ TEST(repeated_notify_wait_cycles)
 TEST(ping_pong_between_two_threads)
 {
     CompletionSource to_device, to_host;
-    std::thread device([&] {
-        for (int i = 0; i < 50; ++i)
+    std::thread device(
+        [&]
         {
-            if (to_device.wait(5000ms) != WaitResult::Completed)
-                return;
-            to_host.notify();
-        }
-    });
+            for (int i = 0; i < 50; ++i)
+            {
+                if (to_device.wait(5000ms) != WaitResult::Completed)
+                    return;
+                to_host.notify();
+            }
+        });
 
     int completed = 0;
     for (int i = 0; i < 50; ++i)

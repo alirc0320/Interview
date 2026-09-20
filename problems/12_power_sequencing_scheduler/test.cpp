@@ -42,7 +42,8 @@ Rail make_rail(Log& log, std::string name, std::vector<std::string> deps = {},
     Rail r;
     r.name = name;
     r.depends_on = std::move(deps);
-    r.enable = [&log, name, enable_succeeds]() {
+    r.enable = [&log, name, enable_succeeds]()
+    {
         if (enable_succeeds)
             log.enabled.push_back(name);
         else
@@ -152,9 +153,7 @@ TEST(longer_cycle_is_rejected_without_enabling_anything)
 {
     Log log;
     std::vector<Rail> rails = {
-        make_rail(log, "A", {"C"}),
-        make_rail(log, "B", {"A"}),
-        make_rail(log, "C", {"B"}),
+        make_rail(log, "A", {"C"}), make_rail(log, "B", {"A"}), make_rail(log, "C", {"B"}),
         make_rail(log, "FREE"), // acyclic bystander must not be enabled either
     };
     CHECK(!power_on_sequence(rails));

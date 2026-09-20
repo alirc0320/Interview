@@ -64,9 +64,9 @@ TEST(rectangular_2x3_times_3x2)
 
 TEST(rectangular_3x2_times_2x4)
 {
-    std::vector<float> a = {1, 2, 3, 4, 5, 6};                // 3x2
-    std::vector<float> b = {1, 0, 2, 1, 0, 1, 1, 2};          // 2x4
-    std::vector<float> c(12, -1.0f);                           // 3x4
+    std::vector<float> a = {1, 2, 3, 4, 5, 6};       // 3x2
+    std::vector<float> b = {1, 0, 2, 1, 0, 1, 1, 2}; // 2x4
+    std::vector<float> c(12, -1.0f);                 // 3x4
     CHECK(matmul(a.data(), b.data(), c.data(), 3, 2, 4));
     // row0: [1 2] -> [1, 2, 4, 5]
     // row1: [3 4] -> [3, 4, 10, 11]

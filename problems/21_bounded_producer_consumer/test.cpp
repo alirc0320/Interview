@@ -31,11 +31,14 @@ struct Watchdog
 {
     Watchdog()
     {
-        std::thread([] {
-            std::this_thread::sleep_for(30s);
-            std::cerr << "WATCHDOG: test run exceeded 30s -- likely deadlock\n";
-            std::_Exit(2);
-        }).detach();
+        std::thread(
+            []
+            {
+                std::this_thread::sleep_for(30s);
+                std::cerr << "WATCHDOG: test run exceeded 30s -- likely deadlock\n";
+                std::_Exit(2);
+            })
+            .detach();
     }
 };
 Watchdog watchdog;
@@ -115,10 +118,12 @@ TEST(blocked_producer_is_woken_by_pop)
     BoundedQueue<int> q(1);
     q.push(1);
     std::atomic<bool> pushed{false};
-    std::thread producer([&] {
-        q.push(2); // blocks: queue is full
-        pushed = true;
-    });
+    std::thread producer(
+        [&]
+        {
+            q.push(2); // blocks: queue is full
+            pushed = true;
+        });
 
     std::this_thread::sleep_for(50ms);
     CHECK(!pushed.load()); // still blocked
@@ -133,13 +138,15 @@ TEST(producer_never_gets_more_than_capacity_ahead_of_the_consumer)
     constexpr std::size_t kCap = 3;
     BoundedQueue<int> q(kCap);
     std::atomic<int> pushed{0};
-    std::thread producer([&] {
-        for (int i = 0; i < 10; ++i)
+    std::thread producer(
+        [&]
         {
-            q.push(i);
-            ++pushed;
-        }
-    });
+            for (int i = 0; i < 10; ++i)
+            {
+                q.push(i);
+                ++pushed;
+            }
+        });
 
     std::this_thread::sleep_for(100ms);
     CHECK(pushed.load() <= static_cast<int>(kCap)); // nobody is popping yet
@@ -155,10 +162,12 @@ TEST(shutdown_wakes_blocked_consumers)
     std::atomic<int> nullopts{0};
     std::vector<std::thread> consumers;
     for (int i = 0; i < 4; ++i)
-        consumers.emplace_back([&] {
-            if (!q.pop().has_value())
-                ++nullopts;
-        });
+        consumers.emplace_back(
+            [&]
+            {
+                if (!q.pop().has_value())
+                    ++nullopts;
+            });
 
     std::this_thread::sleep_for(50ms);
     q.shutdown();
@@ -174,10 +183,12 @@ TEST(shutdown_wakes_blocked_producers)
     std::atomic<int> returned{0};
     std::vector<std::thread> producers;
     for (int i = 0; i < 3; ++i)
-        producers.emplace_back([&, i] {
-            q.push(100 + i); // all block: queue is full
-            ++returned;
-        });
+        producers.emplace_back(
+            [&, i]
+            {
+                q.push(100 + i); // all block: queue is full
+                ++returned;
+            });
 
     std::this_thread::sleep_for(50ms);
     CHECK_EQ(returned.load(), 0);
@@ -203,15 +214,19 @@ TEST(one_producer_one_consumer_transfers_everything_in_order)
     constexpr int kN = 5000;
     std::vector<int> received;
 
-    std::thread consumer([&] {
-        while (auto v = q.pop())
-            received.push_back(*v);
-    });
-    std::thread producer([&] {
-        for (int i = 0; i < kN; ++i)
-            q.push(i);
-        q.shutdown();
-    });
+    std::thread consumer(
+        [&]
+        {
+            while (auto v = q.pop())
+                received.push_back(*v);
+        });
+    std::thread producer(
+        [&]
+        {
+            for (int i = 0; i < kN; ++i)
+                q.push(i);
+            q.shutdown();
+        });
     producer.join();
     consumer.join();
 
@@ -234,20 +249,24 @@ TEST(many_producers_many_consumers_lose_and_duplicate_nothing)
 
     std::vector<std::thread> consumers;
     for (int c = 0; c < kConsumers; ++c)
-        consumers.emplace_back([&] {
-            while (auto v = q.pop())
+        consumers.emplace_back(
+            [&]
             {
-                sum += *v;
-                ++count;
-            }
-        });
+                while (auto v = q.pop())
+                {
+                    sum += *v;
+                    ++count;
+                }
+            });
 
     std::vector<std::thread> producers;
     for (int p = 0; p < kProducers; ++p)
-        producers.emplace_back([&, p] {
-            for (int i = 0; i < kPerProducer; ++i)
-                q.push(p * kPerProducer + i);
-        });
+        producers.emplace_back(
+            [&, p]
+            {
+                for (int i = 0; i < kPerProducer; ++i)
+                    q.push(p * kPerProducer + i);
+            });
 
     for (auto& t : producers)
         t.join();

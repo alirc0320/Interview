@@ -110,7 +110,7 @@ TEST(result_is_consistent_for_every_start_across_the_wrap)
     const std::uint32_t timeout = 50;
     for (std::uint32_t offset = 0; offset < 200; ++offset)
     {
-        std::uint32_t start = kMax - 99; // 100 ticks before the wrap
+        std::uint32_t start = kMax - 99;    // 100 ticks before the wrap
         std::uint32_t now = start + offset; // wraps naturally
         CHECK_EQ(expired(start, now, timeout), offset >= timeout);
     }
