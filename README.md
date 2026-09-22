@@ -4,6 +4,11 @@ C++ practice environment for the Etched Accelerator Software interview
 (2026-10-15). See `QUESTIONS.md` for what every folder/file maps to in the
 guide.
 
+Separate track: `anduril/` is a self-contained, **pure C** prep folder
+for the Anduril Flight Engineering interview (live coding in C via
+HackerRank CodePair, pointers/bitwise/endianness-heavy) — see
+`anduril/README.md`. It has its own Makefile; nothing below applies to it.
+
 ## Coding problems
 
 Each problem is `problems/<name>/{solution.h, solution.cpp, test.cpp}`.

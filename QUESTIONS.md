@@ -88,10 +88,17 @@ tab). `learncpp/practice/<slug>.cpp` is the paired 2-chapter combined
 program, scaffolded with a task description but no implementation.
 
 Suggested priority for this interview (see chat for full reasoning): pointers/
-references (12), bit manipulation (O), dynamic allocation (19), structs/
+references (12, 12b), bit manipulation (O), dynamic allocation (19), structs/
 classes (13–15), move semantics/smart pointers (22), and virtual functions
 (25) are the highest-yield chapters for an Accelerator Software interview —
 do those first if short on time.
+
+`12b_pointers_advanced_embedded` is not a real LearnCpp chapter — it's a
+custom addition inserted right after 12 because raw-pointer questions
+(pointer arithmetic, `void*`/`reinterpret_cast`, `volatile`/MMIO, alignment
+and strict aliasing) are disproportionately likely in an embedded/
+accelerator interview and don't live in any single LearnCpp chapter. Do it
+directly after 12, before moving on to 13.
 
 | # | Chapter file | Practice pair |
 |---|---|---|
@@ -110,6 +117,7 @@ do those first if short on time.
 | 11 | `11_function_overloading_templates` | `11_f` |
 | F | `f_constexpr_functions` | ↑ |
 | 12 | `12_references_and_pointers` | `12_13` |
+| 12b | `12b_pointers_advanced_embedded` (custom, not real LearnCpp) | `12b` (solo) |
 | 13 | `13_enums_and_structs` | ↑ |
 | 14 | `14_introduction_to_classes` | `14_15` |
 | 15 | `15_more_on_classes` | ↑ |

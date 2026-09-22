@@ -121,6 +121,77 @@ A:
 Q: Write a `class UniqueBuffer` that owns a heap-allocated `int` array via `std::unique_ptr<int[]>` and stores its size. Give it: a constructor taking a size, a `set(int index, int value)` / `get(int index) const` pair (asserting bounds), and explicitly implement (or `= default`/`= delete` as appropriate) its move constructor, move assignment, copy constructor, and copy assignment — deciding deliberately whether the class should be copyable at all given it owns a `unique_ptr`. Demonstrate in `main()` that moving a `UniqueBuffer` leaves the source in a valid-but-empty state and transfers ownership to the destination.
 A:
 
+## 6. Concept explanation — custom deleters and array/aliasing forms
+Q: `std::unique_ptr<T>` and `std::shared_ptr<T>` both support custom deleters (e.g. for a resource that must be freed with `fclose` or a hardware-specific release function instead of `delete`), but the mechanism differs: for `unique_ptr` the deleter is part of the type (`std::unique_ptr<T, Deleter>`), while for `shared_ptr` it's erased into the control block and isn't part of the type. Explain why that difference exists (what it implies about the size of a `unique_ptr` with a stateless vs. stateful deleter vs. the size of a `shared_ptr`), and describe what the "aliasing constructor" of `shared_ptr` (`shared_ptr<U>(shared_ptr<T> owner, U* ptr)`) is for — give a concrete example, like handing out a `shared_ptr` to a single member of a struct while keeping the whole struct alive.
+A:
+
+## 7. Predict the output — shared_ptr refcounts and weak_ptr locking
+Q:
+```cpp
+#include <iostream>
+#include <memory>
+
+int main()
+{
+    auto a{ std::make_shared<int>(42) };
+    std::cout << a.use_count() << '\n';
+
+    std::weak_ptr<int> w{ a };
+    {
+        auto b{ a };
+        std::cout << a.use_count() << '\n';
+    }
+    std::cout << a.use_count() << '\n';
+
+    if (auto locked{ w.lock() })
+        std::cout << "alive: " << *locked << '\n';
+
+    a.reset();
+    std::cout << w.expired() << '\n';
+    if (auto locked{ w.lock() })
+        std::cout << "alive: " << *locked << '\n';
+    else
+        std::cout << "expired\n";
+
+    return 0;
+}
+```
+A:
+
+## 8. Debugging / undefined behavior — mixing raw and smart pointers to the same object
+Q: A function takes ownership via `unique_ptr` but a caller keeps a raw pointer around "just to check something later":
+```cpp
+#include <memory>
+
+class Sensor
+{
+public:
+    int read() const { return 42; }
+};
+
+Sensor* g_lastSensor{ nullptr };
+
+void registerSensor(std::unique_ptr<Sensor> s)
+{
+    g_lastSensor = s.get();
+    // s goes out of scope here
+}
+
+int useSensorLater()
+{
+    return g_lastSensor->read();
+}
+
+int main()
+{
+    auto sensor{ std::make_unique<Sensor>() };
+    registerSensor(std::move(sensor));
+    return useSensorLater();
+}
+```
+Explain exactly what's wrong with `g_lastSensor` by the time `useSensorLater()` runs, why `.get()` is a code smell whenever the raw pointer can outlive the smart pointer that produced it, and name at least one design fix appropriate here (changing who owns the `Sensor`, using `shared_ptr`/`weak_ptr`, or restructuring lifetime/ownership so `registerSensor` doesn't take ownership at all).
+A:
+
 ---
 
 ## Corrections
