@@ -44,7 +44,8 @@ static int mt_failures = 0;
     {                                                                                              \
         int before = mt_failures;                                                                  \
         name();                                                                                    \
-        fprintf(stderr, "-- %s: %s\n", #name, (mt_failures == before) ? "PASS" : "FAIL");          \
+        fprintf(stderr, "-- %s: %s\n", #name,                                                      \
+                (mt_failures == before) ? "\033[32mPASS\033[0m" : "\033[31mFAIL\033[0m");          \
     } while (0)
 
 #define TEST_SUMMARY() fprintf(stderr, "%d check(s), %d failure(s)\n", mt_checks, mt_failures)

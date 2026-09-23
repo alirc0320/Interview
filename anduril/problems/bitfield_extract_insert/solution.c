@@ -5,3 +5,17 @@
  *   - unsigned wraparound when checking start + count > 32.
  *   - not disturbing bits outside the field on insert.
  */
+
+
+ bool extract_bits(uint32_t value, unsigned start, unsigned count, uint32_t* out)
+ {
+    if(start + count > 32)
+    {
+        return false;
+    } else 
+    {
+        for (int i = start; i < count; i++){
+            
+        }
+    }
+ }
