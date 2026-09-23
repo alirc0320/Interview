@@ -19,5 +19,5 @@
  *   - On any rejection, *out must be left unchanged (do not write garbage
  *     to an out-param on failure — a common embedded API footgun).
  */
-bool extract_bits(uint32_t value, unsigned start, unsigned count, uint32_t *out);
-bool insert_bits(uint32_t value, uint32_t field, unsigned start, unsigned count, uint32_t *out);
+bool extract_bits(uint32_t value, unsigned start, unsigned count, uint32_t* out);
+bool insert_bits(uint32_t value, uint32_t field, unsigned start, unsigned count, uint32_t* out);

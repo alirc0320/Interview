@@ -37,4 +37,4 @@ typedef struct
  *   - buf_len < 4 + length (buffer doesn't contain the full frame)
  *   - checksum byte doesn't match the XOR of the payload bytes
  */
-size_t uart_parse_frame(const uint8_t *buf, size_t buf_len, UartFrame *frame);
+size_t uart_parse_frame(const uint8_t* buf, size_t buf_len, UartFrame* frame);

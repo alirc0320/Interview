@@ -20,12 +20,12 @@ typedef struct
     size_t count; /* number of valid elements currently stored */
 } RingBuffer;
 
-void ring_init(RingBuffer *rb);
-bool ring_is_empty(const RingBuffer *rb);
-bool ring_is_full(const RingBuffer *rb);
+void ring_init(RingBuffer* rb);
+bool ring_is_empty(const RingBuffer* rb);
+bool ring_is_full(const RingBuffer* rb);
 
 /* Returns false (and leaves rb unchanged) if the buffer is full. */
-bool ring_push(RingBuffer *rb, int value);
+bool ring_push(RingBuffer* rb, int value);
 
 /* Returns false (and leaves *out unchanged) if the buffer is empty. */
-bool ring_pop(RingBuffer *rb, int *out);
+bool ring_pop(RingBuffer* rb, int* out);

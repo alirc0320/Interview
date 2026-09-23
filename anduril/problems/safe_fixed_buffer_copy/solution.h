@@ -17,9 +17,9 @@
 /* Returns true if all of src (including its terminator) fit within
  * dst_capacity bytes; false if truncated (dst is still NUL-terminated,
  * just shorter than src) or if dst_capacity == 0 (nothing was written). */
-bool safe_strcpy(char *dst, size_t dst_capacity, const char *src);
+bool safe_strcpy(char* dst, size_t dst_capacity, const char* src);
 
 /* Appends src onto the end of the NUL-terminated string already in dst.
  * Returns true if all of src fit; false if truncated, if dst wasn't
  * already NUL-terminated within dst_capacity, or if dst_capacity == 0. */
-bool safe_strcat(char *dst, size_t dst_capacity, const char *src);
+bool safe_strcat(char* dst, size_t dst_capacity, const char* src);

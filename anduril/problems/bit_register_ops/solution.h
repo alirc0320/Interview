@@ -10,14 +10,14 @@
  * why that pointer would need to be `volatile` there but doesn't change
  * anything about the bit arithmetic itself. */
 
-void reg_set_bit(uint32_t *reg, unsigned bit);
-void reg_clear_bit(uint32_t *reg, unsigned bit);
-void reg_toggle_bit(uint32_t *reg, unsigned bit);
+void reg_set_bit(uint32_t* reg, unsigned bit);
+void reg_clear_bit(uint32_t* reg, unsigned bit);
+void reg_toggle_bit(uint32_t* reg, unsigned bit);
 
 /* Returns 0 or 1. */
-int reg_test_bit(const uint32_t *reg, unsigned bit);
+int reg_test_bit(const uint32_t* reg, unsigned bit);
 
 /* Read-modify-write: within `mask`, replace the current bits with the
  * corresponding bits of `value`; bits outside `mask` are left untouched.
  * (i.e. *reg = (*reg & ~mask) | (value & mask);) */
-void reg_write_masked(uint32_t *reg, uint32_t mask, uint32_t value);
+void reg_write_masked(uint32_t* reg, uint32_t mask, uint32_t value);
