@@ -1,6 +1,7 @@
 #pragma once
 #include <stddef.h>
 #include <stdint.h>
+#include <stdio.h>
 
 /* Parse a simple length-prefixed UART-style frame out of a raw byte
  * buffer using pointer arithmetic — this is the shape of GFG Q31-35
