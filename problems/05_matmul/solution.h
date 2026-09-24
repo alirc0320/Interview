@@ -1,5 +1,6 @@
 #pragma once
 #include <cstddef>
+#include <limits>
 
 // C = A x B (row-major). A is M x K, B is K x N, C is M x N.
 // TODO: implement. Validate arguments and guard dimension arithmetic
