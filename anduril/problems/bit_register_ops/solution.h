@@ -14,7 +14,8 @@ void reg_set_bit(uint32_t* reg, unsigned bit);
 void reg_clear_bit(uint32_t* reg, unsigned bit);
 void reg_toggle_bit(uint32_t* reg, unsigned bit);
 
-/* Returns 0 or 1. */
+/* Extract bits [start, start+count) from value into *out, right-aligned so
+ * *out's bit 0 is value's bit `start`. count == 0 writes 0. */
 int reg_test_bit(const uint32_t* reg, unsigned bit);
 
 /*
