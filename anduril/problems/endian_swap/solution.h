@@ -1,7 +1,7 @@
 #pragma once
 #include <stdbool.h>
 #include <stdint.h>
-
+#include <stdio.h>
 /* Endianness — GFG Q58/Q102, and a near-certain live-coding topic given the
  * team works with hardware registers and wire protocols.
  *

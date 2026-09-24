@@ -124,10 +124,13 @@ void EventLoop::run()
                     auto timestamp = get<0>(event_tuple);
                     get<0>(event_tuple) = timestamp + period;
                     events.push(event_tuple);
-                } else {
+                }
+                else
+                {
                     event_valid.erase(event_id);
                 }
-            } else if(!is_valid)
+            }
+            else if (!is_valid)
             {
                 events.pop();
                 event_valid.erase(event_id);
@@ -137,7 +140,9 @@ void EventLoop::run()
             {
                 continue;
             }
-        } else {
+        }
+        else
+        {
             return;
         }
     };
