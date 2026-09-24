@@ -1,6 +1,8 @@
 #pragma once
 #include <stdbool.h>
 #include <stddef.h>
+#include <string.h>
+#include <stdio.h>
 
 /* Bounded string copy/append into a fixed-size stack/static buffer — the
  * "why not just use strcpy" question (GFG Q18/Q19/Q20: stack overflow,
